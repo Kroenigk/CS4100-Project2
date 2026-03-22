@@ -14,5 +14,5 @@ do
 	cat scanner_out.txt >> tokens.txt
 	echo "">>tokens.txt
 done
-./cmos > tokenized.txt
+./test > tokenized.txt
 echo "Done. Results stored in tokenized.txt"

@@ -7,7 +7,7 @@ sudo apt install flex bison gcc make
 
 ## Testing the Lexer
 ```bash
-flex -o lex.yy.cpp cmos.l
+flex -o lex.yy.cpp treeBuilder.l
 g++ -std=c++17 lex.yy.cpp -o scanner
 ./scanner < test.txt
 ```
