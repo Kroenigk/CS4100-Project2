@@ -101,7 +101,7 @@ int line_num(){
 			}
 
 [0-9]+          {   
-					fprintf(out, "INTLITERAL(%s)\n", yytext);
+					fprintf(out, "TKINTLITERAL(%s)\n", yytext);
 					return TKINTLITERAL; 
 				}
 

@@ -928,7 +928,7 @@ case 17:
 YY_RULE_SETUP
 #line 103 "treeBuilder.l"
 {   
-					fprintf(out, "INTLITERAL(%s)\n", yytext);
+					fprintf(out, "TKINTLITERAL(%s)\n", yytext);
 					return TKINTLITERAL; 
 				}
 	YY_BREAK
