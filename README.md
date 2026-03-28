@@ -1,4 +1,5 @@
 # CS4100-Project2
+This code is written by Kylie Roenigk and Angie Bragg
 ## Install Depencies
 ```bash
 sudo apt update

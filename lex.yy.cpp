@@ -500,6 +500,7 @@ char *yytext;
 #line 1 "treeBuilder.l"
 #line 2 "treeBuilder.l"
 /* ===== C DECLARATIONS ===== */
+/// This code is written by Kylie Roenigk and Angie Bragg
 #include <iostream>
 #include <fstream>
 #include <stdio.h>
@@ -541,9 +542,9 @@ void Addline(const char* text)
 int line_num(){
 	return linecount;
 }
-#line 545 "lex.yy.cpp"
+#line 546 "lex.yy.cpp"
 
-#line 547 "lex.yy.cpp"
+#line 548 "lex.yy.cpp"
 
 #define INITIAL 0
 #define COMMENT 1
@@ -761,10 +762,10 @@ YY_DECL
 		}
 
 	{
-#line 48 "treeBuilder.l"
+#line 49 "treeBuilder.l"
 
 
-#line 768 "lex.yy.cpp"
+#line 769 "lex.yy.cpp"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -824,53 +825,53 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 /* rule 1 can match eol */
 YY_RULE_SETUP
-#line 50 "treeBuilder.l"
+#line 51 "treeBuilder.l"
 {   Addline(yytext);    }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 52 "treeBuilder.l"
+#line 53 "treeBuilder.l"
 {	/* ignore */	}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 54 "treeBuilder.l"
+#line 55 "treeBuilder.l"
 {	/* ignore */	}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 56 "treeBuilder.l"
+#line 57 "treeBuilder.l"
 {	BEGIN(COMMENT);		}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 58 "treeBuilder.l"
+#line 59 "treeBuilder.l"
 {	BEGIN(INITIAL);	}
 	YY_BREAK
 case 6:
 /* rule 6 can match eol */
 YY_RULE_SETUP
-#line 60 "treeBuilder.l"
+#line 61 "treeBuilder.l"
 {	Addline(yytext);	}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 62 "treeBuilder.l"
+#line 63 "treeBuilder.l"
 {	/* ignore */	}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 64 "treeBuilder.l"
+#line 65 "treeBuilder.l"
 {	/* ignore */		}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 66 "treeBuilder.l"
+#line 67 "treeBuilder.l"
 {		/* ignore */ 	}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 68 "treeBuilder.l"
+#line 69 "treeBuilder.l"
 {	
 						fprintf(out, "TKBUILDNODE\n");
 						return TKBUILDNODE;	
@@ -878,7 +879,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 73 "treeBuilder.l"
+#line 74 "treeBuilder.l"
 {
     					fprintf(out, "TKNAME\n");
     					return TKNAME;
@@ -886,7 +887,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 78 "treeBuilder.l"
+#line 79 "treeBuilder.l"
 {
     					fprintf(out, "TKWEIGHT\n");
     					return TKWEIGHT;
@@ -894,7 +895,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 83 "treeBuilder.l"
+#line 84 "treeBuilder.l"
 {
     					fprintf(out, "TKISACHILDOF\n");
     					return TKISACHILDOF;
@@ -902,7 +903,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 88 "treeBuilder.l"
+#line 89 "treeBuilder.l"
 {   
 				fprintf(out, "TKFOR\n");
 				return TKFOR;   
@@ -910,7 +911,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 93 "treeBuilder.l"
+#line 94 "treeBuilder.l"
 {   
 				fprintf(out, "TKIN\n");
 				return TKIN;    	
@@ -918,7 +919,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 98 "treeBuilder.l"
+#line 99 "treeBuilder.l"
 {	
 				fprintf(out, "TKPRINT\n");
 				return TKPRINT;		
@@ -926,7 +927,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 103 "treeBuilder.l"
+#line 104 "treeBuilder.l"
 {   
 					fprintf(out, "TKINTLITERAL(%s)\n", yytext);
 					return TKINTLITERAL; 
@@ -935,7 +936,7 @@ YY_RULE_SETUP
 case 18:
 /* rule 18 can match eol */
 YY_RULE_SETUP
-#line 108 "treeBuilder.l"
+#line 109 "treeBuilder.l"
 {   
 								fprintf(out, "TKSTRINGLITERAL(%s)\n", yytext);
 								return TKSTRINGLITERAL;     
@@ -943,7 +944,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 113 "treeBuilder.l"
+#line 114 "treeBuilder.l"
 {   
 											fprintf(out, "TKVARIABLE(%s)\n", yytext);
 											return TKVARIABLE;   
@@ -951,7 +952,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 118 "treeBuilder.l"
+#line 119 "treeBuilder.l"
 {	
 				fprintf(out, "TKCOMMA\n");
 				return TKCOMMA;		
@@ -959,7 +960,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 123 "treeBuilder.l"
+#line 124 "treeBuilder.l"
 {	
 						fprintf(out, "%s\n", yytext);
 						return yytext[0];	
@@ -967,15 +968,15 @@ YY_RULE_SETUP
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 128 "treeBuilder.l"
+#line 129 "treeBuilder.l"
 { fprintf(out, "Unexpected character: %s\n", yytext); }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 130 "treeBuilder.l"
+#line 131 "treeBuilder.l"
 ECHO;
 	YY_BREAK
-#line 979 "lex.yy.cpp"
+#line 980 "lex.yy.cpp"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(COMMENT):
 	yyterminate();
@@ -1981,7 +1982,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 130 "treeBuilder.l"
+#line 131 "treeBuilder.l"
 
 int yywrap(void){
 	return 1;
