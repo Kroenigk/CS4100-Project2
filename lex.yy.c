@@ -1,6 +1,6 @@
-#line 2 "lex.yy.cpp"
+#line 2 "lex.yy.c"
 
-#line 4 "lex.yy.cpp"
+#line 4 "lex.yy.c"
 
 #define  YY_INT_ALIGNED short int
 
@@ -527,9 +527,9 @@ void Addline(const char* text)
 int line_num(){
 	return linecount;
 }
-#line 531 "lex.yy.cpp"
+#line 531 "lex.yy.c"
 
-#line 533 "lex.yy.cpp"
+#line 533 "lex.yy.c"
 
 #define INITIAL 0
 #define COMMENT 1
@@ -750,7 +750,7 @@ YY_DECL
 #line 34 "treeBuilder.l"
 
 
-#line 754 "lex.yy.cpp"
+#line 754 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -956,7 +956,7 @@ YY_RULE_SETUP
 #line 111 "treeBuilder.l"
 ECHO;
 	YY_BREAK
-#line 960 "lex.yy.cpp"
+#line 960 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(COMMENT):
 	yyterminate();

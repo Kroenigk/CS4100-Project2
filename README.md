@@ -6,17 +6,10 @@ sudo apt update
 sudo apt install flex bison gcc make
 ```
 
-## Testing the Lexer
-```bash
-flex -o lex.yy.cpp treeBuilder.l
-g++ -std=c++17 lex.yy.cpp -o scanner
-./scanner < test.txt
-```
-
 ## Running Instructions
 ```bash
 make clean
 make
-./test.sh Example
+./main Example/example.txt
 ```
-This will compile the lex file and then run it on the example file. The main function in main.cpp will then check the tokenized output from lex compared to what tokens are expected.
+This will compile the lex file, yacc file, and then run it on the example file. The main function in main.cpp will then print out the tree from the example file to the terminal
