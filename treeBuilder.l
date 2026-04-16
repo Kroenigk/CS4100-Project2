@@ -5,6 +5,7 @@
 #include <fstream>
 #include <stdio.h>
 #include <string.h>
+#include "parse_tree.h"
 #include "tree_builder.tab.hpp"
 
 using namespace std;

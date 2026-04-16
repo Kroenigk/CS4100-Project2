@@ -79,8 +79,9 @@ union YYSTYPE
   string_expression *str_ptr;
   statement *s_ptr;
   compound_statement *c_ptr;
+  string_list_node* str_list;
 
-#line 84 "tree_builder.tab.hpp"
+#line 85 "tree_builder.tab.hpp"
 
 };
 typedef union YYSTYPE YYSTYPE;

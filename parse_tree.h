@@ -1,3 +1,5 @@
+#ifndef PARSE_TREE_H
+#define PARSE_TREE_H
 #include <map>
 #include <string>
 #include <set>
@@ -251,6 +253,26 @@ private:
     statement *f;
 };
 
+class string_list_node {
+public:
+    string_list_node(const char* val, string_list_node* next = nullptr)
+        : value(val), rest(next) {}
+
+    // Getter for value
+    const string& get_value() const {
+        return value;
+    }
+
+    /// Getter for the next node
+    string_list_node* get_next() const {
+        return rest;
+    }
+    
+private:
+    string value;
+    string_list_node* rest;
+};
+
 class for_statement: public statement {
 public:
     for_statement(char* var, int start, int end, compound_statement *b) {
@@ -269,11 +291,28 @@ public:
         }
     }
 
+    for_statement(char* var, string_list_node* values, compound_statement* b) {
+        var_name = string(var);
+        str_vals = values;
+        body = b;
+    }
+
+    virtual void evaluate_statement_string_list(map<string,int>& int_sym_tab, map<string,string>& str_sym_tab) {
+        for (string_list_node *i = str_vals; i != nullptr; i = i->get_next()) {
+            str_sym_tab[var_name] = i->get_value();
+
+            if (body != nullptr) {
+                body->evaluate_statement(int_sym_tab, str_sym_tab);
+            }
+        }
+    }
+
 private:
     string var_name;
     int start_val;
     int end_val;
     compound_statement *body;
+    string_list_node *str_vals;
 };
 
 class assignment_statement: public statement {
@@ -452,3 +491,5 @@ private:
     integer_expression *l;
     string_expression *r;
 };
+
+#endif

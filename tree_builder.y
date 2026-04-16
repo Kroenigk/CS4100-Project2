@@ -17,6 +17,7 @@ using namespace std;
   string_expression *str_ptr;
   statement *s_ptr;
   compound_statement *c_ptr;
+  string_list_node* str_list;
 }
 
 %{
@@ -34,6 +35,7 @@ using namespace std;
 %type <str_ptr> string_expression
 %type <s_ptr> statement for_statement int_assignment_statement string_assignment_statement print_statement build_node_statement name_assignment is_child_of_assignment weight_assignment
 %type <c_ptr> prog start_var
+%type <str_list> list string_list
 %%
 
 start_var: prog {
@@ -78,7 +80,14 @@ weight_assignment: TKWEIGHT '=' integer_expression ';' { $$ = new assignment_sta
 is_child_of_assignment: TKISACHILDOF '=' string_expression ';' { $$ = new assignment_statement($1, $3); }
 ;
 
+list: '[' string_list ']' { $$ = $2; }
+;
+string_list: TKSTRINGLITERAL { $$ = new string_list_node($1, nullptr);}
+  | TKSTRINGLITERAL ',' string_list { $$ = new string_list_node($1, $3);}
+;
+
 for_statement: TKFOR TKVARIABLE TKIN '[' TKINTLITERAL ':' TKINTLITERAL ']' '{' prog '}' ';' { $$ = new for_statement($2, atoi($5), atoi($7), $10); }
+  | TKFOR TKVARIABLE TKIN list '{' prog '}' ';' { $$ = new for_statement($2, $4, $6);}
 ;
 
 integer_expression: TKINTLITERAL { $$ = new int_constant(atoi($1)); }
