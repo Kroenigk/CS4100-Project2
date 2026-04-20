@@ -9,6 +9,14 @@
 
 using namespace std;
 
+static std::string clean_quotes(const char* raw) {
+    std::string s(raw);
+    if (s.size() >= 2 && s.front() == '"' && s.back() == '"') {
+        return s.substr(1, s.size() - 2);
+    }
+    return s;
+}
+
 class integer_expression {
 public:
     virtual int evaluate_expression(map<string, int> &sym_tab) = 0;
@@ -255,8 +263,10 @@ private:
 
 class string_list_node {
 public:
-    string_list_node(const char* val, string_list_node* next = nullptr)
-        : value(val), rest(next) {}
+    string_list_node(const char* val, string_list_node* next = nullptr) {
+        value = clean_quotes(val);
+        rest = next;
+    }
 
     // Getter for value
     const string& get_value() const {
@@ -275,34 +285,29 @@ private:
 
 class for_statement: public statement {
 public:
-    for_statement(char* var, int start, int end, compound_statement *b) {
-        var_name = string(var);
-        start_val = start;
-        end_val = end;
-        body = b;
-    }
-    virtual void evaluate_statement(map<string,int>& int_sym_tab, map<string,string>& str_sym_tab) {
-        for (int i = start_val; i <= end_val; i++) {
-            int_sym_tab[var_name] = i;
+    // constructor for integer iteration
+    for_statement(char* var, int start, int end, compound_statement* b) 
+        : var_name(var), start_val(start), end_val(end), body(b), str_vals(nullptr) {}
+    // constructor for string loop
+    for_statement(char* var, string_list_node* values, compound_statement* b) 
+        : var_name(var), start_val(0), end_val(0), body(b), str_vals(values) {}
 
-            if (body != nullptr) {
-                body->evaluate_statement(int_sym_tab, str_sym_tab);
-            }
-        }
-    }
+    virtual void evaluate_statement(map<string,int>& int_sym_tab, map<string,string>& str_sym_tab) override {
+        if (str_vals != nullptr) {
+            for (string_list_node *i = str_vals; i != nullptr; i = i->get_next()) {
+                str_sym_tab[var_name] = i->get_value();
 
-    for_statement(char* var, string_list_node* values, compound_statement* b) {
-        var_name = string(var);
-        str_vals = values;
-        body = b;
-    }
+                if (body != nullptr) {
+                    body->evaluate_statement(int_sym_tab, str_sym_tab);
+                }
+            }   
+        } else {
+            for (int i = start_val; i <= end_val; i++) {
+                int_sym_tab[var_name] = i;
 
-    virtual void evaluate_statement_string_list(map<string,int>& int_sym_tab, map<string,string>& str_sym_tab) {
-        for (string_list_node *i = str_vals; i != nullptr; i = i->get_next()) {
-            str_sym_tab[var_name] = i->get_value();
-
-            if (body != nullptr) {
-                body->evaluate_statement(int_sym_tab, str_sym_tab);
+                if (body != nullptr) {
+                    body->evaluate_statement(int_sym_tab, str_sym_tab);
+                }
             }
         }
     }
@@ -412,7 +417,7 @@ private:
 class str_lit_expr: public string_expression {
 public:
     str_lit_expr(char *in_val) {
-        saved_val = in_val;
+        saved_val = clean_quotes(in_val);
         if (saved_val.size() >= 2 && saved_val.front() == '"' && saved_val.back() == '"') {
             saved_val = saved_val.substr(1, saved_val.size() - 2);
         }
@@ -446,6 +451,7 @@ public:
 private:
     string ident;
 };
+
 class str_str_expr: public string_expression {
 public:
     str_str_expr(string_expression *left, string_expression *right) {

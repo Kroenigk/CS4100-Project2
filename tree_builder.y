@@ -102,9 +102,12 @@ integer_expression: TKINTLITERAL { $$ = new int_constant(atoi($1)); }
 ;
 
 string_expression: TKSTRINGLITERAL { $$ = new str_lit_expr($1); }
+  | TKVARIABLE '+' string_expression { $$ = new str_str_expr(new str_var_expr($1), $3); }
+  | TKVARIABLE '+' integer_expression { $$ = new str_int_expr(new str_var_expr($1), $3); }
   | string_expression '+' string_expression { $$ = new str_str_expr($1, $3); }
   | string_expression '+' integer_expression { $$ = new str_int_expr($1, $3); }
   | integer_expression '+' string_expression { $$ = new int_str_expr($1, $3); }
+  | TKVARIABLE { $$ = new str_var_expr($1); }
 ;
 %%
 #include "lex.yy.c"
