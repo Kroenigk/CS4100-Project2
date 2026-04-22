@@ -9,6 +9,7 @@ using namespace std;
 
 class tree {
 public:
+    // default constructor
     tree() {
         name = "";
         weight = 0;

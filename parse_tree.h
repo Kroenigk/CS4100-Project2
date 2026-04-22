@@ -9,6 +9,7 @@
 
 using namespace std;
 
+// helper function to remove quotes from string variables
 static std::string clean_quotes(const char* raw) {
     std::string s(raw);
     if (s.size() >= 2 && s.front() == '"' && s.back() == '"') {
@@ -17,6 +18,9 @@ static std::string clean_quotes(const char* raw) {
     return s;
 }
 
+/** 
+ * classes for simple expressions 
+*/
 class integer_expression {
 public:
     virtual int evaluate_expression(map<string, int> &sym_tab) = 0;
@@ -32,6 +36,9 @@ public:
     virtual string evaluate_expression(map<string, int> &int_sym_tab, map<string, string> &str_sym_tab) = 0;
 };
 
+/** 
+ * classes for integers 
+*/
 class int_constant : public integer_expression {
 public:
     int_constant(int val) { saved_val = val; }
@@ -66,12 +73,14 @@ public:
     integer_expression *eval_ptr;
 };
 
+/** 
+ * classes for integer expressions
+ */
 class plus_expr: public integer_expression {
 public:
-    plus_expr(integer_expression *left, integer_expression *right) {
-        l = left;
-        r = right;
-    }
+    plus_expr(integer_expression *left, integer_expression *right) 
+        : l(left), r(right) {}
+
     virtual int evaluate_expression(map<string, int> &sym_tab) {
         return l->evaluate_expression(sym_tab) + r->evaluate_expression(sym_tab);
     }
@@ -83,10 +92,9 @@ private:
 
 class minus_expr: public integer_expression {
 public:
-    minus_expr(integer_expression *left, integer_expression *right) {
-        l = left;
-        r = right;
-    }
+    minus_expr(integer_expression *left, integer_expression *right) 
+        : l(left), r(right) {}
+
     virtual int evaluate_expression(map<string, int> &sym_tab) {
         return l->evaluate_expression(sym_tab) - r->evaluate_expression(sym_tab);
     }
@@ -98,10 +106,9 @@ private:
 
 class mult_expr: public integer_expression {
 public:
-    mult_expr(integer_expression *left, integer_expression *right) {
-        l = left;
-        r = right;
-    }
+    mult_expr(integer_expression *left, integer_expression *right) 
+        : l(left), r(right) {}
+
     virtual int evaluate_expression(map<string, int> &sym_tab) {
         return l->evaluate_expression(sym_tab) * r->evaluate_expression(sym_tab);
     }
@@ -113,10 +120,9 @@ private:
 
 class div_expr: public integer_expression {
 public:
-    div_expr(integer_expression *left, integer_expression *right) {
-        l = left;
-        r = right;
-    }
+    div_expr(integer_expression *left, integer_expression *right) 
+        : l(left), r(right) {}
+
     virtual int evaluate_expression(map<string, int> &sym_tab) {
         return l->evaluate_expression(sym_tab) / r->evaluate_expression(sym_tab);
     }
@@ -128,10 +134,9 @@ private:
 
 class mod_expr: public integer_expression {
 public:
-    mod_expr(integer_expression *left, integer_expression *right) {
-        l = left;
-        r = right;
-    }
+    mod_expr(integer_expression *left, integer_expression *right) 
+        : l(left), r(right) {}
+
     virtual int evaluate_expression(map<string, int> &sym_tab) {
         return l->evaluate_expression(sym_tab) % r->evaluate_expression(sym_tab);
     }
@@ -141,12 +146,14 @@ private:
     integer_expression *r;
 };
 
+/**
+ * classes for boolean expressions 
+ */
 class less_expr: public boolean_expression {
 public:
-    less_expr(integer_expression *left, integer_expression *right) {
-        l = left;
-        r = right;
-    }
+    less_expr(integer_expression *left, integer_expression *right) 
+        : l(left), r(right) {}
+
     virtual bool evaluate_expression(map<string, int> &sym_tab) {
         return l->evaluate_expression(sym_tab) < r->evaluate_expression(sym_tab);
     }
@@ -158,10 +165,9 @@ private:
 
 class greater_expr: public boolean_expression {
 public:
-    greater_expr(integer_expression *left, integer_expression *right) {
-        l = left;
-        r = right;
-    }
+    greater_expr(integer_expression *left, integer_expression *right) 
+        : l(left), r(right) {}
+
     virtual bool evaluate_expression(map<string, int> &sym_tab) {
         return l->evaluate_expression(sym_tab) > r->evaluate_expression(sym_tab);
     }
@@ -173,10 +179,9 @@ private:
 
 class ge_expr: public boolean_expression {
 public:
-    ge_expr(integer_expression *left, integer_expression *right) {
-        l = left;
-        r = right;
-    }
+    ge_expr(integer_expression *left, integer_expression *right) 
+        : l(left), r(right) {}
+
     virtual bool evaluate_expression(map<string, int> &sym_tab) {
         return l->evaluate_expression(sym_tab) >= r->evaluate_expression(sym_tab);
     }
@@ -188,10 +193,9 @@ private:
 
 class le_expr: public boolean_expression {
 public:
-    le_expr(integer_expression *left, integer_expression *right) {
-        l = left;
-        r = right;
-    }
+    le_expr(integer_expression *left, integer_expression *right) 
+        : l(left), r(right) {}
+
     virtual bool evaluate_expression(map<string, int> &sym_tab) {
         return l->evaluate_expression(sym_tab) <= r->evaluate_expression(sym_tab);
     }
@@ -203,10 +207,9 @@ private:
 
 class ee_expr: public boolean_expression {
 public:
-    ee_expr(integer_expression *left, integer_expression *right) {
-        l = left;
-        r = right;
-    }
+    ee_expr(integer_expression *left, integer_expression *right) 
+        : l(left), r(right) {}
+    
     virtual bool evaluate_expression(map<string, int> &sym_tab) {
         return l->evaluate_expression(sym_tab) == r->evaluate_expression(sym_tab);
     }
@@ -221,6 +224,7 @@ public:
     virtual void evaluate_statement(map<string, int> &int_sym_tab, map<string, string> &str_sym_tab ) = 0;
 };
 
+// tree class
 class built_tree_store {
 public:
     static map<string, tree*> &nodes() {
@@ -240,7 +244,9 @@ public:
         return new_node;
     }
 };
-
+/**
+ * class for compound statements
+ */
 class compound_statement: public statement {
 public:
     compound_statement(statement *first, compound_statement *rest) {
@@ -283,6 +289,9 @@ private:
     string_list_node* rest;
 };
 
+/**
+ * class for for statements 
+ */
 class for_statement: public statement {
 public:
     // constructor for integer iteration
@@ -320,18 +329,17 @@ private:
     string_list_node *str_vals;
 };
 
+// assignment statement
 class assignment_statement: public statement {
 public:
-    assignment_statement(char *id, integer_expression *rhs) {
-        ident = id;
-        int_r_side = rhs;
-        str_r_side = nullptr;
-    }
-    assignment_statement(char *id, string_expression *rhs) {
-        ident = id;
-        int_r_side = nullptr;
-        str_r_side = rhs;
-    }
+    // assignment for integers
+    assignment_statement(char *id, integer_expression *rhs) 
+        : ident(id), int_r_side(rhs), str_r_side(nullptr) {}
+        
+    // assignment for strings
+    assignment_statement(char *id, string_expression *rhs) 
+        : ident(id), int_r_side(nullptr), str_r_side(rhs) {}
+        
     virtual void evaluate_statement(map<string, int> &int_sym_tab, map<string, string> &str_sym_tab) {
         if (int_r_side != nullptr) {
             int_sym_tab[ident] = int_r_side->evaluate_expression(int_sym_tab);
@@ -346,11 +354,12 @@ private:
     string_expression *str_r_side;
 };
 
+// print statement
 class print_statement: public statement {
 public:
-    print_statement(string_expression *expr) {
-        e = expr;
-    }
+    print_statement(string_expression *expr) 
+        : e(expr) {}
+
     virtual void evaluate_statement(map<string, int> &int_sym_tab, map<string,string>& str_sym_tab) {
         string requested_name = e->evaluate_expression(int_sym_tab, str_sym_tab);
         map<string, tree*> &all_nodes = built_tree_store::nodes();
@@ -367,11 +376,11 @@ private:
     string_expression *e;
 };
 
+// build node statement
 class build_node_statement: public statement {
 public:
-    build_node_statement(compound_statement *body_in) {
-        body = body_in;
-    }
+    build_node_statement(compound_statement *body_in) 
+        : body(body_in) {}
 
     virtual void evaluate_statement(map<string, int> &int_sym_tab, map<string, string> &str_sym_tab) {
         str_sym_tab["name"] = "";
@@ -414,13 +423,13 @@ private:
     compound_statement *body;
 };
 
+/**
+ * string expressions
+ */
 class str_lit_expr: public string_expression {
 public:
     str_lit_expr(char *in_val) {
         saved_val = clean_quotes(in_val);
-        if (saved_val.size() >= 2 && saved_val.front() == '"' && saved_val.back() == '"') {
-            saved_val = saved_val.substr(1, saved_val.size() - 2);
-        }
     }
 
     virtual string evaluate_expression(map<string, int> &int_sym_tab, map<string, string> &str_sym_tab) {
@@ -435,9 +444,8 @@ private:
 
 class str_var_expr: public string_expression {
 public:
-    str_var_expr(char *in_val) {
-        ident = in_val;
-    }
+    str_var_expr(char *in_val) 
+        : ident(in_val) {}
 
     virtual string evaluate_expression(map<string, int> &int_sym_tab, map<string, string> &str_sym_tab) {
         (void)int_sym_tab;
@@ -454,10 +462,8 @@ private:
 
 class str_str_expr: public string_expression {
 public:
-    str_str_expr(string_expression *left, string_expression *right) {
-        l = left;
-        r = right;
-    }
+    str_str_expr(string_expression *left, string_expression *right)  
+        : l(left), r(right) {}
 
     virtual string evaluate_expression(map<string, int> &int_sym_tab, map<string, string> &str_sym_tab) {
         return l->evaluate_expression(int_sym_tab, str_sym_tab) + r->evaluate_expression(int_sym_tab, str_sym_tab);
@@ -469,10 +475,8 @@ private:
 };
 class str_int_expr: public string_expression {
 public:
-    str_int_expr(string_expression *left, integer_expression *right) {
-        l = left;
-        r = right;
-    }
+    str_int_expr(string_expression *left, integer_expression *right)  
+        : l(left), r(right) {}
 
     virtual string evaluate_expression(map<string, int> &int_sym_tab, map<string, string> &str_sym_tab) {
         return l->evaluate_expression(int_sym_tab, str_sym_tab) + to_string(r->evaluate_expression(int_sym_tab));
@@ -484,10 +488,8 @@ private:
 };
 class int_str_expr: public string_expression {
 public:
-    int_str_expr(integer_expression *left, string_expression *right) {
-        l = left;
-        r = right;
-    }
+    int_str_expr(integer_expression *left, string_expression *right)  
+        : l(left), r(right) {}
 
     virtual string evaluate_expression(map<string, int> &int_sym_tab, map<string, string> &str_sym_tab) {
         return to_string(l->evaluate_expression(int_sym_tab)) + r->evaluate_expression(int_sym_tab, str_sym_tab);
